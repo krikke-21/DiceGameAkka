@@ -1,4 +1,4 @@
-# Dice game using CQRS & EventSourcing with Akka.NET
+# Dice game built using CQRS & EventSourcing with Akka.NET
 
 It's a really simple (yet complete) event-sourced game. 
 The rules are:
