@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace AkkaMjrTwo.UI.Controllers
+namespace DiceGame.Akka.UI.Controllers
 {
     public class HomeController : Controller
     {

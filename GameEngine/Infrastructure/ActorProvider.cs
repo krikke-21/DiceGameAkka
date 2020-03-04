@@ -1,6 +1,6 @@
 ﻿using Akka.Actor;
 
-namespace AkkaMjrTwo.GameEngine.Infrastructure
+namespace DiceGame.Akka.GameEngine.Infrastructure
 {
     public delegate IActorRef GameManagerActorProvider();
 }

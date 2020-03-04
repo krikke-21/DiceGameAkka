@@ -1,42 +1,93 @@
 ﻿using Akka.Actor;
 using Akka.Event;
-using AkkaMjrTwo.Domain;
+using DiceGame.Akka.Domain;
+using DiceGame.Akka.StatisticsEngine.ReadModels;
+using System;
 using System.Linq;
-using AkkaMjrTwo.StatisticsEngine.ReadModels;
 
-namespace AkkaMjrTwo.StatisticsEngine.Projectors
+namespace DiceGame.Akka.StatisticsEngine.Actor
 {
-    //Transform StatisticsProjectorActor class into an actor
-    public class StatisticsProjectionActor
+    public class StatisticsProjectionActor : ReceiveActor
     {
         public StatisticsProjectionActor()
         {
             Initialize();
         }
 
-        //Implement Factory method using Props.Create
         public static Props GetProps()
         {
+            return Props.Create<StatisticsProjectionActor>();
         }
 
         private void Initialize()
         {
-            //Register Project message handlers
+            Receive<GameStarted>(Project);
+            Receive<DiceRolled>(Project);
+            Receive<GameFinished>(Project);
         }
 
         private static void Project(GameStarted @event)
         {
-            //Create new statistics read model for each player using GameStatisticsContext
+            var gameId = @event.Id.Value;
+
+            using (var db = new GameStatisticsContext())
+            {
+                foreach (var player in @event.Players)
+                {
+                    db.Add(new GameStatistic
+                    {
+                        GameId = gameId,
+                        PlayerId = player.Value,
+                        Created = DateTime.Now
+                    });
+                }
+                db.SaveChanges();
+            }
         }
 
         private static void Project(DiceRolled @event)
         {
-            //Update NumberRolled in statistics read model for current player using GameStatisticsContext
+            var gameId = @event.Id.Value;
+            var player = @event.Player.Value;
+
+            using (var db = new GameStatisticsContext())
+            {
+                var statistic = db.Statistics.FirstOrDefault(s => s.GameId.Equals(gameId) && s.PlayerId.Equals(player));
+                if (statistic != null)
+                {
+                    statistic.NumberRolled = @event.RolledNumber;
+                    statistic.Updated = DateTime.Now;
+
+                    db.SaveChanges();
+                }
+                else
+                {
+                    Context.GetLogger().Warning("Unable to find GameStatistic readmodel for game id {0} and player id {1}", gameId, player);
+                }
+            }
         }
 
         private static void Project(GameFinished @event)
         {
-            //Flag winners in statistics read model using GameStatisticsContext
+            var gameId = @event.Id.Value;
+
+            using (var db = new GameStatisticsContext())
+            {
+                foreach (var player in @event.Winners)
+                {
+                    var statistic = db.Statistics.FirstOrDefault(s => s.GameId.Equals(gameId) && s.PlayerId.Equals(player.Value));
+                    if (statistic != null)
+                    {
+                        statistic.Winner = true;
+                        statistic.Updated = DateTime.Now;
+                    }
+                    else
+                    {
+                        Context.GetLogger().Warning("Unable to find GameStatistic readmodel for game id {0} and player id {1}", gameId, player);
+                    }
+                }
+                db.SaveChanges();
+            }
         }
     }
 }

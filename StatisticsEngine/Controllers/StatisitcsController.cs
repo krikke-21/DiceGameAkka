@@ -1,11 +1,11 @@
-﻿using AkkaMjrTwo.StatisticsEngine.Attributes;
-using AkkaMjrTwo.StatisticsEngine.ReadModels;
+﻿using DiceGame.Akka.StatisticsEngine.Attributes;
+using DiceGame.Akka.StatisticsEngine.ReadModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AkkaMjrTwo.StatisticsEngine.Controllers
+namespace DiceGame.Akka.StatisticsEngine.Controllers
 {
     [Route("api/statistics")]
     [ApiController]

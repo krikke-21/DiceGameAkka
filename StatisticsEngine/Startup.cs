@@ -1,14 +1,14 @@
 using Akka.Actor;
-using AkkaMjrTwo.Infrastructure.Akka;
-using AkkaMjrTwo.StatisticsEngine.Actor;
-using AkkaMjrTwo.StatisticsEngine.ReadModels;
+using DiceGame.Akka.Infrastructure.Akka;
+using DiceGame.Akka.StatisticsEngine.Actor;
+using DiceGame.Akka.StatisticsEngine.ReadModels;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 
-namespace AkkaMjrTwo.StatisticsEngine
+namespace DiceGame.Akka.StatisticsEngine
 {
     public class Startup
     {

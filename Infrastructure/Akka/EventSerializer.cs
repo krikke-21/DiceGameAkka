@@ -1,15 +1,15 @@
-﻿using System;
-using System.Text;
-using Akka.Actor;
+﻿using Akka.Actor;
 using Akka.Serialization;
+using System;
+using System.Text;
 
-namespace AkkaMjrTwo.Infrastructure.Akka
+namespace DiceGame.Akka.Infrastructure.Akka
 {
     public class EventSerializer : Serializer
     {
         public override bool IncludeManifest => true;
         public override int Identifier => 800;
-        
+
         public EventSerializer(ExtendedActorSystem system)
             : base(system)
         { }

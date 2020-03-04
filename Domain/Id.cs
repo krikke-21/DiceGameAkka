@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AkkaMjrTwo.Domain
+namespace DiceGame.Akka.Domain
 {
     public class Id<T> : IEquatable<Id<T>>
     {

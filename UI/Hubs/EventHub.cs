@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
-namespace AkkaMjrTwo.UI.Hubs
+namespace DiceGame.Akka.UI.Hubs
 {
     public class EventHub : Hub
     {

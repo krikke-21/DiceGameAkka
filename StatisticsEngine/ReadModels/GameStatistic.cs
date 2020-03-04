@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 
-namespace AkkaMjrTwo.StatisticsEngine.ReadModels
+namespace DiceGame.Akka.StatisticsEngine.ReadModels
 {
     public class GameStatisticsContext : DbContext
     {
@@ -25,5 +26,9 @@ namespace AkkaMjrTwo.StatisticsEngine.ReadModels
         public int NumberRolled { get; set; }
 
         public bool Winner { get; set; }
+
+        public DateTime Created { get; set; }
+
+        public DateTime? Updated { get; set; }
     }
 }

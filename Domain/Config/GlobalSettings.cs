@@ -1,4 +1,4 @@
-﻿namespace AkkaMjrTwo.Domain.Config
+﻿namespace DiceGame.Akka.Domain.Config
 {
     public static class GlobalSettings
     {

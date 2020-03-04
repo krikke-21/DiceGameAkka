@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
+using NLog;
+using System;
 using System.Linq;
 using System.Text;
-using Microsoft.AspNetCore.Mvc.Filters;
-using NLog;
 
-namespace AkkaMjrTwo.GameEngine.Attributes
+namespace DiceGame.Akka.GameEngine.Attributes
 {
     internal class RequestLoggingActionFilterAttribute : ActionFilterAttribute
     {
-    
+
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             var logger = LogManager.GetLogger(context.Controller.GetType().FullName);

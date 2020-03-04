@@ -1,4 +1,4 @@
-﻿namespace AkkaMjrTwo.GameEngine.Model
+﻿namespace DiceGame.Akka.GameEngine.Model
 {
     public class RollDiceRequest
     {

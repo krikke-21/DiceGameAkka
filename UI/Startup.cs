@@ -1,14 +1,14 @@
 ﻿using Akka.Actor;
-using AkkaMjrTwo.Infrastructure.Akka;
-using AkkaMjrTwo.UI.Actor;
-using AkkaMjrTwo.UI.Hubs;
+using DiceGame.Akka.Infrastructure.Akka;
+using DiceGame.Akka.UI.Actor;
+using DiceGame.Akka.UI.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Threading;
 
-namespace AkkaMjrTwo.UI
+namespace DiceGame.Akka.UI
 {
     public class Startup
     {

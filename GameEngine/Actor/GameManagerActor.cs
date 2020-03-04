@@ -1,8 +1,8 @@
-﻿using System;
-using Akka.Actor;
-using AkkaMjrTwo.Domain;
+﻿using Akka.Actor;
+using DiceGame.Akka.Domain;
+using System;
 
-namespace AkkaMjrTwo.GameEngine.Actor
+namespace DiceGame.Akka.GameEngine.Actor
 {
     #region Messages
 
@@ -22,7 +22,7 @@ namespace AkkaMjrTwo.GameEngine.Actor
             Command = command;
         }
     }
-    
+
 
     public class GameCreated
     {
@@ -44,42 +44,48 @@ namespace AkkaMjrTwo.GameEngine.Actor
 
     #endregion
 
-    //Transform GameManagerActor class into an actor
-    public class GameManagerActor
+    public class GameManagerActor : ReceiveActor
     {
         public GameManagerActor()
         {
-            //Register handlers for:
-            //  - CreateGame messages
-            //  - SendCommand messages
+            Receive<CreateGame>(Handle);
+            Receive<SendCommand>(Handle);
         }
 
-        //Implement Factory method using Props.Create
         public static Props GetProps()
         {
+            return Props.Create<GameManagerActor>();
         }
 
         private bool Handle(CreateGame message)
         {
             var id = new GameId($"Game_{Guid.NewGuid().ToString()}");
 
-            //Retrieve child GameActor using Context and check if it already exists comparing with ActorRefs.Nobody
-            //If GameActor already exists:
-            //  - Respond with GameAlreadyExists message to Sender
-            //If GameActor does not exist:
-            //  - Create new GameActor as a child
-            //  - Respond with GameCreated message to Sender
+            var gameActor = Context.Child(id.Value);
+            if (!gameActor.Equals(ActorRefs.Nobody))
+            {
+                Sender.Tell(new GameAlreadyExists());
+                return true;
+            }
+
+            Context.ActorOf(GameActor.GetProps(id), id.Value);
+
+            Sender.Tell(new GameCreated(id));
 
             return true;
         }
 
         private bool Handle(SendCommand message)
         {
-            //Retrieve child GameActor using Context and check if it already exists comparing with ActorRefs.Nobody
-            //If GameActor exists:
-            //  - Forward the command to child
-            //If GameActor does not exist:
-            //  - Respond with GameDoesNotExist message to Sender
+            var game = Context.Child(message.GameId.Value);
+            if (!game.Equals(ActorRefs.Nobody))
+            {
+                game.Forward(message.Command);
+            }
+            else
+            {
+                Sender.Tell(new GameDoesNotExist());
+            }
 
             return true;
         }

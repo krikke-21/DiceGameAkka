@@ -1,14 +1,14 @@
 ﻿using Akka.Actor;
-using AkkaMjrTwo.GameEngine.Actor;
-using AkkaMjrTwo.GameEngine.Infrastructure;
-using AkkaMjrTwo.Infrastructure.Akka;
+using DiceGame.Akka.GameEngine.Actor;
+using DiceGame.Akka.GameEngine.Infrastructure;
+using DiceGame.Akka.Infrastructure.Akka;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 
-namespace AkkaMjrTwo.GameEngine
+namespace DiceGame.Akka.GameEngine
 {
     public class Startup
     {
@@ -85,7 +85,7 @@ namespace AkkaMjrTwo.GameEngine
 
         private static ActorSystem ConfigureActorSystem()
         {
-            //Create the ActorSystem with name "DiceGameSystem" (tip: use ConfigurationLoader to bootstap Akka configuration)
+            return ActorSystem.Create("DiceGameSystem", ConfigurationLoader.Load());
         }
     }
 }

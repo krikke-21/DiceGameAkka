@@ -1,10 +1,10 @@
 ﻿using Akka;
 using Akka.Actor;
 using Akka.Cluster.Tools.PublishSubscribe;
-using AkkaMjrTwo.Domain;
-using AkkaMjrTwo.UI.Hubs;
+using DiceGame.Akka.Domain;
+using DiceGame.Akka.UI.Hubs;
 
-namespace AkkaMjrTwo.UI.Actor
+namespace DiceGame.Akka.UI.Actor
 {
     public class SetHub : INoSerializationVerificationNeeded
     {

@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Text;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
-namespace AkkaMjrTwo.Infrastructure.Akka
+namespace DiceGame.Akka.Infrastructure.Akka
 {
     /// <summary>
     /// Serializer supports Weak Schema Versioning.

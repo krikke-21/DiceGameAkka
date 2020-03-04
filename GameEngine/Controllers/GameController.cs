@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Akka.Actor;
-using AkkaMjrTwo.Domain;
-using AkkaMjrTwo.GameEngine.Actor;
-using AkkaMjrTwo.GameEngine.Attributes;
-using AkkaMjrTwo.GameEngine.Infrastructure;
-using AkkaMjrTwo.GameEngine.Model;
+﻿using Akka.Actor;
+using DiceGame.Akka.Domain;
+using DiceGame.Akka.GameEngine.Actor;
+using DiceGame.Akka.GameEngine.Attributes;
+using DiceGame.Akka.GameEngine.Infrastructure;
+using DiceGame.Akka.GameEngine.Model;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace AkkaMjrTwo.GameEngine.Controllers
+namespace DiceGame.Akka.GameEngine.Controllers
 {
     [Route("api/game")]
     [ApiController]
@@ -26,9 +26,8 @@ namespace AkkaMjrTwo.GameEngine.Controllers
         [HttpPost]
         public async Task<ActionResult> Create()
         {
-            //- Send a GameCreated message to the GameManagerActor
-            //- Return feedback
-            return Ok();
+            var feedback = await _gameManagerActor.Ask<GameCreated>(new CreateGame());
+            return Ok(feedback);
         }
 
         [RequestLoggingActionFilter]
@@ -42,8 +41,9 @@ namespace AkkaMjrTwo.GameEngine.Controllers
                 playerIds.Add(new PlayerId(str));
             }
 
-            //Send a SendCommand command containing a StartGame GameCommand to the GameManagerActor
-            
+            var msg = new SendCommand(new GameId(request.GameId), new StartGame(playerIds));
+
+            var feedback = await _gameManagerActor.Ask<object>(msg);
             return Ok(new { Result = feedback.GetType().Name });
         }
 
@@ -52,8 +52,9 @@ namespace AkkaMjrTwo.GameEngine.Controllers
         [HttpPost]
         public async Task<ActionResult> Roll(RollDiceRequest request)
         {
-            //Send a SendCommand command containing a RollDice GameCommand to the GameManagerActor
+            var msg = new SendCommand(new GameId(request.GameId), new RollDice(new PlayerId(request.PlayerId)));
 
+            var feedback = await _gameManagerActor.Ask<object>(msg);
             return Ok(new { Result = feedback.GetType().Name });
         }
     }

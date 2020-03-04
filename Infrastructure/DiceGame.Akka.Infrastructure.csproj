@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>DiceGame.Akka.Infrastructure</AssemblyName>
+    <RootNamespace>DiceGame.Akka.Infrastructure</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

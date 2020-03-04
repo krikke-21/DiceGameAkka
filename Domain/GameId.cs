@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AkkaMjrTwo.Domain
+﻿namespace DiceGame.Akka.Domain
 {
     public class GameId : Id<Game>
     {

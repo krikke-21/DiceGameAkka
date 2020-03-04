@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 using NLog.Web;
 using System;
 
-namespace AkkaMjrTwo.GameEngine
+namespace DiceGame.Akka.GameEngine
 {
     public static class Program
     {

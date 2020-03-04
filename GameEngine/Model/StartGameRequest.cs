@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AkkaMjrTwo.GameEngine.Model
+namespace DiceGame.Akka.GameEngine.Model
 {
     public class StartGameRequest
     {

@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AkkaMjrTwo.Domain", "Domain\AkkaMjrTwo.Domain.csproj", "{CD53CE97-DB63-4EF4-9D67-B1C1350BD11A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiceGame.Akka.Domain", "Domain\DiceGame.Akka.Domain.csproj", "{CD53CE97-DB63-4EF4-9D67-B1C1350BD11A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AkkaMjrTwo.GameEngine", "GameEngine\AkkaMjrTwo.GameEngine.csproj", "{B6DE19CF-BAD1-4295-AB24-72C696834567}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiceGame.Akka.GameEngine", "GameEngine\DiceGame.Akka.GameEngine.csproj", "{B6DE19CF-BAD1-4295-AB24-72C696834567}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AkkaMjrTwo.Infrastructure", "Infrastructure\AkkaMjrTwo.Infrastructure.csproj", "{D9B9A9CF-BB6A-43A0-9F1C-A1725EC068B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiceGame.Akka.Infrastructure", "Infrastructure\DiceGame.Akka.Infrastructure.csproj", "{D9B9A9CF-BB6A-43A0-9F1C-A1725EC068B9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AkkaMjrTwo.UI", "UI\AkkaMjrTwo.UI.csproj", "{7AAFF6D5-230F-4644-ADBA-3D9F549E6B7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiceGame.Akka.UI", "UI\DiceGame.Akka.UI.csproj", "{7AAFF6D5-230F-4644-ADBA-3D9F549E6B7A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AkkaMjrTwo.StatisticsEngine", "StatisticsEngine\AkkaMjrTwo.StatisticsEngine.csproj", "{36BE44B4-9792-4FC6-B792-BADC2936778C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiceGame.Akka.StatisticsEngine", "StatisticsEngine\DiceGame.Akka.StatisticsEngine.csproj", "{36BE44B4-9792-4FC6-B792-BADC2936778C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DB", "DB", "{D2B6BDB2-C510-4D84-A5AA-797D1484D4B8}"
 	ProjectSection(SolutionItems) = preProject

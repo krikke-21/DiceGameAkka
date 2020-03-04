@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AkkaMjrTwo.Infrastructure.Akka
+namespace DiceGame.Akka.Infrastructure.Akka
 {
     public class AddressBook : ReceiveActor
     {

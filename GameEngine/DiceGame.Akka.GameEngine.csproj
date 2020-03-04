@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>DiceGame.Akka.GameEngine</AssemblyName>
+    <RootNamespace>DiceGame.Akka.GameEngine</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -38,7 +40,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Domain\AkkaMjrTwo.Domain.csproj" />
-    <ProjectReference Include="..\Infrastructure\AkkaMjrTwo.Infrastructure.csproj" />
+    <ProjectReference Include="..\Domain\DiceGame.Akka.Domain.csproj" />
+    <ProjectReference Include="..\Infrastructure\DiceGame.Akka.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

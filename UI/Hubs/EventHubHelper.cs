@@ -1,6 +1,6 @@
 ﻿using Akka.Actor;
-using AkkaMjrTwo.Domain;
-using AkkaMjrTwo.UI.Actor;
+using DiceGame.Akka.Domain;
+using DiceGame.Akka.UI.Actor;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -8,7 +8,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AkkaMjrTwo.UI.Hubs
+namespace DiceGame.Akka.UI.Hubs
 {
     public class EventHubHelper : IHostedService
     {

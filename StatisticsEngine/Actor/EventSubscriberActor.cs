@@ -2,10 +2,9 @@
 using Akka.Actor;
 using Akka.Cluster.Tools.PublishSubscribe;
 using Akka.Event;
-using AkkaMjrTwo.Domain;
-using AkkaMjrTwo.StatisticsEngine.Projectors;
+using DiceGame.Akka.Domain;
 
-namespace AkkaMjrTwo.StatisticsEngine.Actor
+namespace DiceGame.Akka.StatisticsEngine.Actor
 {
     public class EventSubscriberActor : ReceiveActor, IWithUnboundedStash
     {
@@ -56,7 +55,7 @@ namespace AkkaMjrTwo.StatisticsEngine.Actor
         private void ProjectEvent(GameEvent @event)
         {
             IActorRef projector = GetProjectorActor(StatisticsProjectionActor.GetProps(), nameof(StatisticsProjectionActor));
-            
+
             if (!projector.Equals(ActorRefs.Nobody))
             {
                 projector.Tell(@event);

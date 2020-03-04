@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AkkaMjrTwo.Domain
+namespace DiceGame.Akka.Domain
 {
     public abstract class GameEvent
     {

@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace AkkaMjrTwo.Infrastructure.Akka
+namespace DiceGame.Akka.Infrastructure.Akka
 {
     public static class ConfigurationLoader
     {
