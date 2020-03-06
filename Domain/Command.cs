@@ -18,6 +18,10 @@ namespace DiceGame.Akka.Domain
     }
 
 
+    public class ContinueGame : GameCommand
+    {
+    }
+
 
     public class RollDice : GameCommand
     {

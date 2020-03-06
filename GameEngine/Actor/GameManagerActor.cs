@@ -9,8 +9,6 @@ namespace DiceGame.Akka.GameEngine.Actor
     public class CreateGame
     { }
 
-
-
     public class SendCommand
     {
         public GameId GameId { get; private set; }
@@ -35,6 +33,10 @@ namespace DiceGame.Akka.GameEngine.Actor
     }
 
 
+    public class GameContinued
+    { }
+
+
     public class GameDoesNotExist
     { }
 
@@ -57,27 +59,27 @@ namespace DiceGame.Akka.GameEngine.Actor
             return Props.Create<GameManagerActor>();
         }
 
-        private bool Handle(CreateGame message)
+        private void Handle(CreateGame message)
         {
             var id = new GameId($"Game_{Guid.NewGuid().ToString()}");
 
-            var gameActor = Context.Child(id.Value);
-            if (!gameActor.Equals(ActorRefs.Nobody))
+            var game = Context.Child(id.Value);
+            if (!game.Equals(ActorRefs.Nobody))
             {
                 Sender.Tell(new GameAlreadyExists());
-                return true;
             }
 
             Context.ActorOf(GameActor.GetProps(id), id.Value);
 
             Sender.Tell(new GameCreated(id));
-
-            return true;
         }
 
-        private bool Handle(SendCommand message)
+        private void Handle(SendCommand message)
         {
             var game = Context.Child(message.GameId.Value);
+
+            //TODO: Handle continue game case
+
             if (!game.Equals(ActorRefs.Nobody))
             {
                 game.Forward(message.Command);
@@ -86,8 +88,6 @@ namespace DiceGame.Akka.GameEngine.Actor
             {
                 Sender.Tell(new GameDoesNotExist());
             }
-
-            return true;
         }
     }
 }

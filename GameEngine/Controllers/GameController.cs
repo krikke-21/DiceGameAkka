@@ -48,6 +48,17 @@ namespace DiceGame.Akka.GameEngine.Controllers
         }
 
         [RequestLoggingActionFilter]
+        [Route("continue")]
+        [HttpPost]
+        public async Task<ActionResult> Continue(ContinueGameRequest request)
+        {
+            var msg = new SendCommand(new GameId(request.GameId), new ContinueGame());
+            
+            var feedback = await _gameManagerActor.Ask<object>(msg);
+            return Ok(feedback);
+        }
+
+        [RequestLoggingActionFilter]
         [Route("roll")]
         [HttpPost]
         public async Task<ActionResult> Roll(RollDiceRequest request)

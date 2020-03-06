@@ -22,7 +22,6 @@
   <ItemGroup>
     <Folder Include="Actor\" />
     <Folder Include="Attributes\" />
-    <Folder Include="Model\" />
     <Folder Include="Infrastructure\" />
   </ItemGroup>
   <ItemGroup>

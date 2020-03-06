@@ -6,7 +6,17 @@
         </div>
         <p>
             <button ng-disabled="loading" type="button" class="btn btn-lg btn-primary" ng-click="createNewGame()">Create new game, of course</button>
+            <button ng-disabled="loading" type="button" class="btn btn-lg btn-default" ng-click="continue = true">Continue an existing game</button>
         </p>
+
+        <div class="row" ng-show="continue">
+            <div class="col-md-5">
+                <input type="text" class="form-control" ng-model="gameId" />
+            </div>
+            <div class="col-md-1">
+                <button type="button" class="btn btn-primary btn-sm" ng-click="continueGame()">Continue</button>
+            </div>
+        </div>
     </div>
 
     <div ng-switch-when="choose_players" ng-controller="StartGameController">

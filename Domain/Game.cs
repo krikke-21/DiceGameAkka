@@ -24,20 +24,28 @@ namespace DiceGame.Akka.Domain
 
         public Game HandleCommand(GameCommand command)
         {
-            if (command is StartGame game)
+            if (command is StartGame startCmd)
             {
                 if (this is UninitializedGame uninitializedGame)
                 {
-                    return uninitializedGame.Start(game.Players);
+                    return uninitializedGame.Start(startCmd.Players);
                 }
                 else throw new GameAlreadyStartedViolation();
             }
 
-            if (command is RollDice dice)
+            if (command is ContinueGame)
+            {
+                if (!(this is RunningGame))
+                {
+                    throw new GameNotRunningViolation();
+                }
+            }
+
+            if (command is RollDice rollCmd)
             {
                 if (this is RunningGame runningGame)
                 {
-                    return runningGame.Roll(dice.Player);
+                    return runningGame.Roll(rollCmd.Player);
                 }
                 else throw new GameNotRunningViolation();
             }
