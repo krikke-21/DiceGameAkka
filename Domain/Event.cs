@@ -39,6 +39,21 @@ namespace DiceGame.Akka.Domain
         }
     }
 
+    public class GameContinued : GameEvent
+    {
+        public List<PlayerId> Players { get; private set; }
+        public List<KeyValuePair<PlayerId, int>> RolledNumbers { get; private set; }
+        public Turn CurrentTurn { get; private set; }
+
+        public GameContinued(GameId id, List<PlayerId> players, List<KeyValuePair<PlayerId, int>> rolledNumbers, Turn currentTurn)
+            : base(id)
+        {
+            Players = players;
+            RolledNumbers = rolledNumbers;
+            CurrentTurn = currentTurn;
+        }
+    }
+
     public class TurnChanged : GameEvent
     {
         public Turn Turn { get; private set; }

@@ -5,7 +5,7 @@
 
     module.controller('GameController', function($scope, $rootScope, commandService) {
 
-        $scope.selectedPlayer = $rootScope.game.players[0];
+        $scope.selectedPlayer = $rootScope.game.turn.currentPlayer.value;
 
         $scope.winners = [];
 
@@ -21,13 +21,13 @@
 
         $scope.roll = function() {
             commandService.roll($scope.gameId, $scope.selectedPlayer, function(data) {
-                if (data.message) {
+                if (data.result) {
                     if ($scope.hidePopoverTimeout != null) {
                         clearTimeout($scope.hidePopoverTimeout);
                     }
                     $('#roll').popover({
-                        content: data.message,
-                        placement: 'left',
+                        content: 'roll succesfull',
+                        placement: 'right',
                         trigger: 'manual'
                     }).popover('show');
                     $scope.hidePopoverTimeout = setTimeout(function() {
@@ -40,7 +40,7 @@
         };
 
         $scope.isWinner = function(player) {
-            return $.inArray(player.value, $scope.winners) != -1;
+            return $.inArray(player.value, $scope.winners) !== -1;
         };
 
         $rootScope.$on('events.TurnChanged', function(event, data) {

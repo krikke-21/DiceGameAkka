@@ -51,6 +51,10 @@ namespace DiceGame.Akka.UI.Hubs
             {
                 await _hub.Clients.Group(gameId).SendAsync(Method, new { EventType = @event.GetType().Name, Event = started });
             }
+            if (@event is GameContinued continued)
+            {
+                await _hub.Clients.Group(gameId).SendAsync(Method, new { EventType = @event.GetType().Name, Event = continued });
+            }
             if (@event is DiceRolled rolled)
             {
                 await _hub.Clients.Group(gameId).SendAsync(Method, new { EventType = @event.GetType().Name, Event = rolled });

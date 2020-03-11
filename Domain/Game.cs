@@ -35,10 +35,12 @@ namespace DiceGame.Akka.Domain
 
             if (command is ContinueGame)
             {
-                if (!(this is RunningGame))
+                if (this is RunningGame runningGame)
                 {
-                    throw new GameNotRunningViolation();
+                    return runningGame.Continue();
                 }
+                else throw new GameNotRunningViolation();
+
             }
 
             if (command is RollDice rollCmd)
@@ -109,6 +111,13 @@ namespace DiceGame.Akka.Domain
             _turn = turn;
 
             UncommitedEvents = uncommitedEvents;
+        }
+
+        public Game Continue()
+        {
+            RegisterUncommitedEvents(new GameContinued(GameId, _players, _rolledNumbers, new Turn(_turn.CurrentPlayer, GlobalSettings.TurnTimeoutSeconds)));
+
+            return this;
         }
 
         public Game Roll(PlayerId player)

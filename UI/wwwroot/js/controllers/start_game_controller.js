@@ -3,7 +3,7 @@
 
     var module = angular.module('dice-game');
 
-    module.controller('StartGameController', function($scope, $rootScope, commandService) {
+    module.controller('StartGameController', function($scope, commandService) {
 
         $scope.playersCount = 6;
 
@@ -15,12 +15,12 @@
             $scope.loading = true;
             commandService.startGame($scope.gameId, $scope.playersCount, function(data) {
                 $scope.loading = false;
-                if (data.message) {
+                if (data.result) {
                     if ($scope.hidePopoverTimeout != null) {
                         clearTimeout($scope.hidePopoverTimeout);
                     }
                     $('#start-game').popover({
-                        content: data.message,
+                        content: data.result,
                         placement: 'left',
                         trigger: 'manual'
                     }).popover('show');

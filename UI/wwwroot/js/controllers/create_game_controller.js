@@ -25,16 +25,13 @@
         $scope.continueGame = function () {
             $scope.loading = true;
             commandService.continueGame($scope.gameId, function () {
-                $scope.loading = false;
                 $rootScope.gameId = $scope.gameId;
-                $rootScope.page = "game";
                 eventService.connect($scope.gameId);
             }, function () {
                 $scope.loading = false;
                 alert('Unexpected error occurred, try again later.');
             });
         };
-
     });
 
 })();

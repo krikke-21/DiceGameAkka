@@ -78,16 +78,18 @@ namespace DiceGame.Akka.GameEngine.Actor
         {
             var game = Context.Child(message.GameId.Value);
 
-            //TODO: Handle continue game case
-
-            if (!game.Equals(ActorRefs.Nobody))
+            if (game.Equals(ActorRefs.Nobody))
             {
-                game.Forward(message.Command);
+                if (message.Command is ContinueGame)
+                {
+                    game = Context.ActorOf(GameActor.GetProps(message.GameId), message.GameId.Value);
+                }
+                else
+                {
+                    Sender.Tell(new GameDoesNotExist());
+                }
             }
-            else
-            {
-                Sender.Tell(new GameDoesNotExist());
-            }
+            game.Forward(message.Command);
         }
     }
 }
