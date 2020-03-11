@@ -115,7 +115,9 @@ namespace DiceGame.Akka.Domain
 
         public Game Continue()
         {
-            RegisterUncommitedEvents(new GameContinued(GameId, _players, _rolledNumbers, new Turn(_turn.CurrentPlayer, GlobalSettings.TurnTimeoutSeconds)));
+            _turn.SecondsLeft = GlobalSettings.TurnTimeoutSeconds;
+
+            RegisterUncommitedEvents(new GameContinued(GameId, _players, _rolledNumbers, _turn));
 
             return this;
         }
