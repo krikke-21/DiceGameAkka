@@ -6,6 +6,7 @@ using DiceGame.Akka.GameEngine.Infrastructure;
 using DiceGame.Akka.GameEngine.Model;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Threading.Tasks;
 
 namespace DiceGame.Akka.GameEngine.Controllers
@@ -41,7 +42,7 @@ namespace DiceGame.Akka.GameEngine.Controllers
                 playerIds.Add(new PlayerId(str));
             }
 
-            var msg = new SendCommand(new GameId(request.GameId), new StartGame(playerIds));
+            var msg = new SendCommand(new GameId(request.GameId), new StartGame(playerIds.ToImmutableList()));
 
             var feedback = await _gameManagerActor.Ask<object>(msg);
             return Ok(new { Result = feedback.GetType().Name });

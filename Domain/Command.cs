@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace DiceGame.Akka.Domain
 {
@@ -9,9 +10,9 @@ namespace DiceGame.Akka.Domain
 
     public class StartGame : GameCommand
     {
-        public List<PlayerId> Players { get; private set; }
+        public ImmutableList<PlayerId> Players { get; private set; }
 
-        public StartGame(List<PlayerId> players)
+        public StartGame(ImmutableList<PlayerId> players)
         {
             Players = players;
         }

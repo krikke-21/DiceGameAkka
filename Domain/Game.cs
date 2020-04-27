@@ -1,6 +1,8 @@
 ﻿using DiceGame.Akka.Domain.Config;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 
 namespace DiceGame.Akka.Domain
@@ -64,16 +66,20 @@ namespace DiceGame.Akka.Domain
         {
         }
 
-        public Game Start(List<PlayerId> players)
+        public Game Start(ImmutableList<PlayerId> players)
         {
-            if (players.Count < 2)
+            if (players.Count() < 2)
             {
                 throw new NotEnoughPlayersViolation();
             }
 
             var firstPlayer = players.First();
 
-            RegisterUncommitedEvents(new GameStarted(GameId, players, new Turn(firstPlayer, GlobalSettings.TurnTimeoutSeconds)));
+            RegisterUncommitedEvents(
+                new GameStarted(GameId, 
+                                players, 
+                                new Turn(firstPlayer, GlobalSettings.TurnTimeoutSeconds))
+                );
 
             return this;
         }
@@ -97,16 +103,16 @@ namespace DiceGame.Akka.Domain
     public class RunningGame : Game
     {
         private readonly Random _random;
-        private readonly List<KeyValuePair<PlayerId, int>> _rolledNumbers;
-        private readonly List<PlayerId> _players;
+        private readonly Dictionary<PlayerId, int> _rolledNumbers;
+        private readonly ImmutableList<PlayerId> _players;
 
         private Turn _turn;
 
-        public RunningGame(GameId id, List<PlayerId> players, Turn turn, List<GameEvent> uncommitedEvents)
+        public RunningGame(GameId id, ImmutableList<PlayerId> players, Turn turn, List<GameEvent> uncommitedEvents)
             : base(id)
         {
             _random = new Random();
-            _rolledNumbers = new List<KeyValuePair<PlayerId, int>>();
+            _rolledNumbers = new Dictionary<PlayerId, int>();
             _players = players;
             _turn = turn;
 
@@ -117,7 +123,12 @@ namespace DiceGame.Akka.Domain
         {
             _turn.SecondsLeft = GlobalSettings.TurnTimeoutSeconds;
 
-            RegisterUncommitedEvents(new GameContinued(GameId, _players, _rolledNumbers, _turn));
+            RegisterUncommitedEvents(
+                new GameContinued(GameId,
+                                  _players.ToImmutableList<PlayerId>(),
+                                  _rolledNumbers.ToImmutableList<KeyValuePair<PlayerId, int>>(),
+                                  _turn)
+                );
 
             return this;
         }
@@ -132,7 +143,11 @@ namespace DiceGame.Akka.Domain
                 var nextPlayer = GetNextPlayer();
                 if (nextPlayer != null)
                 {
-                    RegisterUncommitedEvents(diceRolled, new TurnChanged(GameId, new Turn(nextPlayer, GlobalSettings.TurnTimeoutSeconds)));
+                    RegisterUncommitedEvents(
+                        diceRolled, new TurnChanged(
+                            GameId, 
+                            new Turn(nextPlayer, GlobalSettings.TurnTimeoutSeconds))
+                        );
                 }
                 else
                 {
@@ -141,7 +156,8 @@ namespace DiceGame.Akka.Domain
                     //add the last roll
                     rolls.Add(new KeyValuePair<PlayerId, int>(diceRolled.Player, diceRolled.RolledNumber));
 
-                    RegisterUncommitedEvents(diceRolled, new GameFinished(GameId, BestPlayers(rolls)));
+                    var bestPlayers = BestPlayers(rolls);
+                    RegisterUncommitedEvents(diceRolled, new GameFinished(GameId, bestPlayers.ToImmutableList<PlayerId>()));
                 }
                 return this;
             }
@@ -161,7 +177,8 @@ namespace DiceGame.Akka.Domain
                 }
                 else
                 {
-                    RegisterUncommitedEvents(timedOut, new GameFinished(GameId, BestPlayers(_rolledNumbers)));
+                    var bestPlayers = BestPlayers(_rolledNumbers);
+                    RegisterUncommitedEvents(timedOut, new GameFinished(GameId, bestPlayers.ToImmutableList<PlayerId>()));
                 }
             }
             else
@@ -180,9 +197,9 @@ namespace DiceGame.Akka.Domain
             }
             if (@event is DiceRolled diceRolled)
             {
-                if (!_rolledNumbers.Exists(x => x.Key.Equals(diceRolled.Player)))
+                if (!_rolledNumbers.Any(x => x.Key.Equals(diceRolled.Player)))
                 {
-                    _rolledNumbers.Add(new KeyValuePair<PlayerId, int>(diceRolled.Player, diceRolled.RolledNumber));
+                    _rolledNumbers.Add(diceRolled.Player, diceRolled.RolledNumber);
                 }
             }
             if (@event is TurnCountdownUpdated turnCountdownUpdated)
@@ -199,7 +216,7 @@ namespace DiceGame.Akka.Domain
             return game;
         }
 
-        private static List<PlayerId> BestPlayers(IReadOnlyCollection<KeyValuePair<PlayerId, int>> rolls)
+        private static List<PlayerId> BestPlayers(IEnumerable<KeyValuePair<PlayerId, int>> rolls)
         {
             var best = new List<PlayerId>();
 
@@ -225,10 +242,10 @@ namespace DiceGame.Akka.Domain
 
     public class FinishedGame : Game
     {
-        public List<PlayerId> Players { get; private set; }
-        public List<PlayerId> Winners { get; private set; }
+        public ImmutableList<PlayerId> Players { get; private set; }
+        public ImmutableList<PlayerId> Winners { get; private set; }
 
-        public FinishedGame(GameId id, List<PlayerId> players, List<PlayerId> winners, List<GameEvent> uncommitedEvents)
+        public FinishedGame(GameId id, ImmutableList<PlayerId> players, ImmutableList<PlayerId> winners, List<GameEvent> uncommitedEvents)
             : base(id)
         {
             Players = players;

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace DiceGame.Akka.Domain
 {
@@ -28,10 +29,10 @@ namespace DiceGame.Akka.Domain
 
     public class GameStarted : GameEvent
     {
-        public List<PlayerId> Players { get; private set; }
+        public ImmutableList<PlayerId> Players { get; private set; }
         public Turn InitialTurn { get; private set; }
 
-        public GameStarted(GameId id, List<PlayerId> players, Turn initialTurn)
+        public GameStarted(GameId id, ImmutableList<PlayerId> players, Turn initialTurn)
             : base(id)
         {
             Players = players;
@@ -41,11 +42,14 @@ namespace DiceGame.Akka.Domain
 
     public class GameContinued : GameEvent
     {
-        public List<PlayerId> Players { get; private set; }
-        public List<KeyValuePair<PlayerId, int>> RolledNumbers { get; private set; }
+        public ImmutableList<PlayerId> Players { get; private set; }
+        public ImmutableList<KeyValuePair<PlayerId, int>> RolledNumbers { get; private set; }
         public Turn CurrentTurn { get; private set; }
 
-        public GameContinued(GameId id, List<PlayerId> players, List<KeyValuePair<PlayerId, int>> rolledNumbers, Turn currentTurn)
+        public GameContinued(GameId id,
+            ImmutableList<PlayerId> players,
+            ImmutableList<KeyValuePair<PlayerId, int>> rolledNumbers, 
+            Turn currentTurn)
             : base(id)
         {
             Players = players;
@@ -86,9 +90,9 @@ namespace DiceGame.Akka.Domain
 
     public class GameFinished : GameEvent
     {
-        public List<PlayerId> Winners { get; private set; }
+        public ImmutableList<PlayerId> Winners { get; private set; }
 
-        public GameFinished(GameId id, List<PlayerId> winners)
+        public GameFinished(GameId id, ImmutableList<PlayerId> winners)
             : base(id)
         {
             Winners = winners;
