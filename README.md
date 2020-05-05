@@ -13,7 +13,6 @@ This workshop is a .NET Core 3 port based on https://scalac.io/event-sourced-gam
   <img src="https://github.com/krikke-21/DiceGameAkka/blob/master/Architecture.png">
 </p>
 
-
 _DISCLAIMER:_
 <br/>
 _The code in this repository is created to demonstrate some core concept about CQRS and Event Sourcing using Akka.NET
